@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Healthcare Solutions</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <style>
+        :root {
+            --primary-color: #1A202C; 
+            --secondary-color: #2D3748;
+            --accent-color: #38B2AC;
+            --text-color: #F7FAFC;
+            --light-text: #A0AEC0;
+            --background: linear-gradient(135deg, #1A202C 0%, #2D3748 100%);
+            --card-background: rgba(45, 55, 72, 0.9);
+            --button-gradient: linear-gradient(135deg, #38B2AC 0%, #4FD1C5 100%);
+            --hover-shadow: 0 4px 15px rgba(56, 178, 172, 0.5);
+            --card-border: 1px solid rgba(56, 178, 172, 0.2);
+            --shadow-color: rgba(0, 0, 0, 0.2);
+        }
+
+        [data-theme="light"] {
+            --primary-color: #F7FAFC;
+            --secondary-color: #EDF2F7;
+            --accent-color: #194187;
+            --text-color: #1A202C;
+            --light-text: #718096;
+            --background: linear-gradient(135deg, #F7FAFC 0%, #EDF2F7 100%);
+            --card-background: rgba(255, 255, 255, 0.9);
+            --button-gradient: linear-gradient(135deg, #319795 0%, #2C7A7B 100%);
+            --hover-shadow: 0 4px 15px rgba(49, 151, 149, 0.5);
+            --card-border: 1px solid rgba(49, 151, 149, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text-color);
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+            transition: all 0.3s ease;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(56, 178, 172, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(56, 178, 172, 0.1) 0%, transparent 50%);
+            z-index: -1;
+            animation: gradientMove 20s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        header {
+            background: rgba(26, 32, 44, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: var(--button-gradient);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            box-shadow: var(--hover-shadow);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(180deg);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            animation: pulse 2s infinite;
+        }
+        .cta-button-navbar {
+            background: var(--button-gradient);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            margin-left: 2rem;
+        }
+
+        .cta-button-navbar:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--light-text);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+        }
+        
+        .mission-section {
+            background: linear-gradient(to right, #1b2939, #273c53); 
+            padding: 30px 20px;
+            color: #ffffff;
+        }
+
+        .mission-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .mission-text {
+            font-size: 20px;
+            line-height: 1.8;
+            color: #e0e0e0; 
+        }
+
+        .mission-text strong {
+            color: #4caf50; 
+            font-weight: bold;
+        }
+
+        .join-btn {
+            background: var(--button-gradient);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .join-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .join-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(56, 178, 172, 0.4);
+        }
+
+        .join-btn:hover::before {
+            left: 100%;
+        }
+
+        .join-btn:active {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 10px rgba(56, 178, 172, 0.4);
+        }
+        .hero {
+            padding: 8rem 1rem 6rem;
+            text-align: center;
+            background: var(--background);
+            color: var(--text-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: -20%;
+            width: 140%;
+            height: 140%;
+            background: radial-gradient(circle at center, rgba(56, 178, 172, 0.2) 0%, transparent 70%);
+            z-index: -1;
+            animation: pulse-bg 10s infinite alternate;
+        }
+
+        @keyframes pulse-bg {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.1); opacity: 1; }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            background: linear-gradient(to right, var(--accent-color), #2DD4BF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: var(--light-text);
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+            border-radius: 9999px;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.15);
+            transition: transform 0.4s ease;
+            z-index: 1;
+            transform: translateX(-100%);
+        }
+
+        .button:hover::before {
+            transform: translateX(100%);
+        }
+
+        .primary-btn {
+            background: var(--button-gradient);
+            color: white;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 15px rgba(21, 70, 154, 0.5);
+        }
+
+        .primary-btn:hover {
+            box-shadow: 0 6px 20px rgba(24, 91, 138, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .secondary-btn {
+            background: var(--secondary-color);
+            color: var(--text-color);
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .secondary-btn:hover {
+            background: var(--accent-color);
+            color: white;
+            box-shadow: 0 6px 20px rgba(56, 178, 172, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .button:active {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 10px rgba(56, 178, 172, 0.4);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: var(--button-gradient);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            box-shadow: var(--hover-shadow);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .section {
+            padding: 6rem 2rem 4rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            background: var(--button-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            width: 100%;
+            padding: 2rem;
+        }
+
+        .card {
+            background: var(--card-background);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: var(--card-border);
+            backdrop-filter: blur(10px);
+            transition: /*all 0.3s ease;*/ all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(56, 178, 172, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+
+        .card:hover::before {
+            /*transform: translateX(100%);*/
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(56, 178, 172, 0.2);
+            border-color: var(--accent-color);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover .card-icon {
+            transform: scale(1.2) rotate(360deg);
+        }
+
+        .card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        .card p {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            color: var(--light-text);
+        }
+
+        .card a {
+            display: inline-block;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            border: 2px solid var(--accent-color);
+            transition: all 0.3s ease;
+        }
+
+        .card a:hover {
+            background: var(--accent-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background: var(--primary-color);
+            padding: 50px 20px 20px;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--light-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+            padding-left: 0.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: var(--light-text);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--secondary-color);
+            color: var(--light-text);
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .section {
+                padding: 4rem 1rem 2rem;
+            }
+
+            .section-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .join-btn {
+                margin-top: 1rem;
+                text-align: center;
+                display: block;
+                width: fit-content;
+            }
+        }
+        .subscribe-section {
+            background-color: #161616;
+            padding: 25px;
+            text-align: center;
+            border-top: 2px solid #333;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .subscribe-section h3 {
+            color: #00adb5;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .subscribe-section p {
+            margin: 10px 0;
+            color: #ccc;
+        }
+
+        .subscribe-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .subscribe-form input[type="email"] {
+            padding: 12px;
+            border: 1px solid #444;
+            border-radius: 25px;
+            background-color: #2b2b2b;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .subscribe-form input[type="email"]::placeholder {
+            color: #888;
+        }
+
+        .subscribe-form button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(45deg, #067176, #393e46);
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .subscribe-form button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .subscribe-form button:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .subscribe-terms {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .subscribe-terms a {
+            color: #00adb5;
+            text-decoration: none;
+        }
+
+        .subscribe-terms a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-heartbeat"></i>
+                InsureCare
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="policy1.html">Plans</a></li>
+                    <li><a href="#philanthropy">Philanthropy</a></li>
+                </ul>
+            </nav>
+            <a href="login.html" class="join-btn">Get Started</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Your Health, Our Priority</h1>
+            <p>Experience healthcare reimagined with personalized plans and cutting-edge technology designed to empower you.</p>
+            <div class="hero-buttons">
+                <a href="policy1.html" class="button primary-btn">Find a Plan</a>
+                <a href="#sponsor" class="button secondary-btn">Sponsor Now</a>
+            </div>
+        </div>
+    </section>    
+
+    <section class="mission-section" id="about">
+        <div class="mission-container">
+            <p class="mission-text">
+                At <strong>InsureAI</strong>, we're revolutionizing healthcare accessibility through intelligent technology. Our AI-powered platform 
+                connects underprivileged individuals with affordable insurance options and compassionate sponsors, while our advanced
+                biometric security ensures a seamless experience. By bridging the gap between healthcare needs and financial constraints,
+                we're building a future where quality healthcare is accessible to all.
+            </p>
+        </div>
+    </section>
+
+    <section class="section" id="services">
+        <h2>Our Services</h2>
+        <h2>Discover Personalized Plans Tailored Just for You</h2>
+        <div class="section-cards">
+            <div class="card" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-brain card-icon"></i>
+                <h3>AI Solutions</h3>
+                <p>Revolutionize your health journey with AI-driven plans and diagnostics.</p>
+                <a href="#">Learn More →</a>
+            </div>
+            <div class="card" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-ambulance card-icon"></i>
+                <h3>24/7 Chat Support</h3>
+                <p>Get assistance anytime with our AI-driven recommendations ensure you find the best healthcare plans effortlessly.</p>
+                <a href="#">Chat Now →</a>
+            </div>
+            <div class="card" data-aos="fade-up" data-aos-delay="300">
+                <i class="fas fa-users card-icon"></i>
+                <h3>Community Empowerment</h3>
+                <p>Join us in making a difference by supporting families in need.</p>
+                <a href="#">Sponsor Now →</a>
+            </div>
+            <div class="card" data-aos="fade-up" data-aos-delay="400">
+                <i class="fas fa-fingerprint card-icon"></i>
+                <h3>Biometric Login</h3>
+                <p>Your security is our priority; experience secure access with state-of-the-art biometric authentication.</p>
+                <a href="#">Get Started →</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="subscribe-section">
+        <h3>Subscribe</h3>
+        <p>Join our newsletter to stay informed about new features and updates.</p>
+        <form class="subscribe-form">
+          <i class="fas fa-envelope icon"></i>
+          <input type="email" placeholder="Email Address" required>
+          <button type="submit">Submit</button>
+        </form>
+        <p class="subscribe-terms">
+          By subscribing, you agree to our <a href="privacy-policy.html">Privacy Policy</a> and consent to receive updates.
+        </p>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Us</h4>
+                <ul class="footer-links">
+                    <li><a href="#mission">Our Mission</a></li>
+                    <li><a href="#team">Our Team</a></li>
+                    <li><a href="#careers">Careers</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Services</h4>
+                <ul class="footer-links">
+                    <li><a href="#plans">Healthcare Plans</a></li>
+                    <li><a href="#insurance">Insurance</a></li>
+                    <li><a href="#wellness">Wellness Programs</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect With Us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 HealthCare. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle i');
+            
+            if (body.getAttribute('data-theme') === 'light') {
+                body.removeAttribute('data-theme');
+                themeToggle.className = 'fas fa-moon';
+            } else {
+                body.setAttribute('data-theme', 'light');
+                themeToggle.className = 'fas fa-sun';
+            }
+        }
+    </script>
+</body>
+</html>

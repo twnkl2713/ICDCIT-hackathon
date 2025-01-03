@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filter Dialog</title>
+  <style>
+    :root {
+      --primary-color: #1A202C; /* Deep blue background */
+      --secondary-color: #2D3748; /* Dark card background */
+      --accent-color: #2c9e98; /* Glowing accent */
+      --background: linear-gradient(135deg, #1a202c 0%, #2d3748 50%);
+      --text-color: #e2e8f0; /* Light text */
+      --button-color: #f87171; /* Reset button */
+      --apply-color: #4caf50; /* Apply button */
+      --border-color: #334155; /* Subtle border */
+      --box-shadow: 0 0 15px rgba(0, 188, 212, 0.5); /* Glowing shadow */
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: var(--primary-color);
+      color: var(--text-color);
+    }
+
+    .dialog {
+      width: 90%;
+      max-width: 1100px;
+      background-color: var(--secondary-color);
+      border-radius: 10px;
+      box-shadow: var(--box-shadow);
+      display: flex;
+      overflow: hidden;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .filter-sidebar {
+      width: 30%;
+      background-color: var(--secondary-color);
+      padding: 20px;
+      border-right: 1px solid var(--border-color);
+    }
+
+    .filter-sidebar h3 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: var(--accent-color);
+    }
+
+    .filter-sidebar .filter-item {
+      padding: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .filter-sidebar .filter-item:hover {
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+    }
+
+    .filter-content {
+      width: 70%;
+      padding: 20px;
+    }
+
+    .filter-content.active {
+      display: block;
+    }
+
+    .filter-content h4 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: var(--accent-color);
+    }
+
+    .filter-content p {
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .filter-content .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .filter-content .option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      background-color: var(--primary-color);
+      color: var(--text-color);
+      cursor: pointer;
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+
+    .filter-content .option:hover {
+      box-shadow: var(--box-shadow);
+      transform: scale(1.05);
+    }
+
+    .filter-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .filter-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      background-color: var(--secondary-color);
+      color: var(--text-color);
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s, transform 0.3s;
+    }   
+
+    .filter-option:hover {
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      transform: scale(1.05);
+    }
+
+    .filter-option.recommended {
+      border: 2px solid var(--accent-color);
+    }
+
+    .info {
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .info a {
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+
+    .info a:hover {
+      text-decoration: underline;
+    }
+
+    .buttons {
+      margin-top: 100px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .buttons .reset,
+    .buttons .apply {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      color: white;
+    }
+
+    .buttons .reset {
+      background-color: var(--button-color);
+    }
+
+    .buttons .apply {
+      background-color: var(--apply-color);
+    }
+
+    .buttons .reset:hover,
+    .buttons .apply:hover {
+      opacity: 0.9;
+      box-shadow: var(--box-shadow);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dialog">
+    <div class="filter-sidebar">
+      <h3>Filter plans by</h3>
+      <div class="filter-item" data-target="sort-by">Sort By</div>
+      <div class="filter-item" data-target="cover">Cover</div>
+      <div class="filter-item" data-target="portability">Portability</div>
+      <div class="filter-item" data-target="premium">Premium (Per Month)</div>
+      <div class="filter-item" data-target="policy-period">Policy period</div>
+      <div class="filter-item" data-target="insurer">Insurer</div>
+    </div>
+    <div class="filter-content">
+      <div id="sort-by" class="content-section">
+        <h4>Sort By</h4>
+        <div class="filter-options">
+          <label class="filter-option recommended">
+            <input type="radio" name="cover" value="recommended">
+            By Relevance
+          </label>
+          <label class="filter-option recommended">
+            <input type="radio" name="cover" value="recommended">
+            Premium Low to High
+          </label>
+        </div>
+        <div class="buttons">
+          <button class="reset">Reset</button>
+          <button class="apply">Apply filters</button>
+        </div>
+      </div>
+      <div id="cover" class="content-section" style="display: none;">
+          <h4>Cover</h4>
+          <div class="info">
+            Which cover amount is best for you? <a>Let’s Find Out ›</a>
+          </div>
+          <div class="filter-options">
+            <label class="filter-option recommended">
+              <input type="radio" name="cover" value="recommended">
+              Recommended
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="cover" value="below-5-lakh">
+              Below ₹5 Lakh
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="cover" value="5-9-lakh">
+              ₹5-9 Lakh
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="cover" value="10-24-lakh">
+              ₹10-24 Lakh
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="cover" value="25-99-lakh">
+              ₹25-99 Lakh
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="cover" value="1-1.99-cr">
+              ₹1-1.99 Cr
+            </label>
+          </div>
+          <div class="buttons">
+            <button class="reset">Reset</button>
+            <button class="apply">Apply filters</button>
+          </div>
+      </div>
+      <div id="portability" class="content-section" style="display: none;">
+        <h4>Portability</h4>
+        <div class="filter-options">
+          <label class="filter-option recommended">
+            <input type="radio" name="cover" value="recommended">
+            Buy New Plan
+          </label>
+          <label class="filter-option recommended">
+            <input type="radio" name="cover" value="recommended">
+            Buy Existing Plan
+          </label>
+        </div>
+        <div class="buttons">
+          <button class="reset">Reset</button>
+          <button class="apply">Apply filters</button>
+        </div>
+      </div>
+      <div id="premium" class="content-section" style="display: none;">
+        <h4>Premium (per month)</h4>
+          <div class="info">
+            This is the amount you pay for a one-year health insurance policy
+          </div>
+          <div class="filter-options">
+            <label class="filter-option recommended">
+              <input type="radio" name="cover" value="recommended">
+              No preference
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="cover" value="below-5-lakh">
+              Less than ₹1,000
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="cover" value="5-9-lakh">
+              ₹1,000-1,500
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="cover" value="10-24-lakh">
+              ₹1,500-2,000
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="cover" value="25-99-lakh">
+              ₹2,000-3,000
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="cover" value="1-1.99-cr">
+              More than ₹3,000
+            </label>
+          </div>
+          <div class="buttons">
+            <button class="reset">Reset</button>
+            <button class="apply">Apply filters</button>
+          </div>
+      </div>
+      <div id="policy-period" class="content-section" style="display: none;">
+        <h4>Policy period</h4>
+        <div class="info">
+          Selecting a multi-year plan saves your money and the trouble of remembering yearly renewal.
+        </div>
+        <div class="filter-options">
+          <label class="filter-option">
+            <input type="radio" name="policy-period" value="1-year">
+            <span>1 year</span>
+          </label>
+          <label class="filter-option">
+            <input type="radio" name="policy-period" value="2-years">
+            <span>2 years</span>
+            <small>Save up to 10% on premium</small>
+          </label>
+          <label class="filter-option recommended">
+            <input type="radio" name="policy-period" value="3-years">
+            <span>3 years</span>
+            <small>Save up to 15% on premium</small>
+          </label>
+          <label class="filter-option">
+            <input type="radio" name="policy-period" value="4-years">
+            <span>4 years</span>
+            <small>Save up to 16% on premium</small>
+          </label>
+          <label class="filter-option">
+            <input type="radio" name="policy-period" value="5-years">
+            <span>5 years</span>
+            <small>Save up to 16% on premium</small>
+          </label>
+        </div>
+        <div class="buttons">
+          <button class="reset">Reset</button>
+          <button class="apply">Apply filters</button>
+        </div>
+      </div>
+      <div id="insurer" class="content-section" style="display: none;">
+        <h4>Select insurer</h4>
+        <p>You can select plans based on your preferred insurer</p>
+        <div class="options">
+          <div class="option"><input type="checkbox" /> Aditya Birla</div>
+          <div class="option"><input type="checkbox" /> Bajaj Allianz</div>
+          <div class="option"><input type="checkbox" /> Care Health</div>
+          <div class="option"><input type="checkbox" /> Cholamandalam</div>
+          <div class="option"><input type="checkbox" /> Digit</div>
+          <div class="option"><input type="checkbox" /> HDFC ERGO</div>
+          <div class="option"><input type="checkbox" /> Iffco Tokio</div>
+        </div>
+        <div class="buttons">
+          <button class="reset">Reset</button>
+          <button class="apply">Apply filters</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.querySelectorAll('.filter-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const targetId = item.getAttribute('data-target');
+        document.querySelectorAll('.content-section').forEach(section => {
+          section.style.display = section.id === targetId ? 'block' : 'none';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
